@@ -1,7 +1,7 @@
-import hist
-import barcode
-import projection
-import utils
+import src.lab1.hist as hist
+import src.lab1.barcode as barcode
+import src.lab1.projection as projection
+from src.lab1 import utils
 
 
 def loadHist():
@@ -26,7 +26,7 @@ def projectionTask():
     projection.showProjection()
 
 
-if __name__ == '__main__':
+def main():
     loadHist()
     barcodeTask()
     projectionTask()

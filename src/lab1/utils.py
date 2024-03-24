@@ -1,13 +1,13 @@
 import cv2 as cv
 import matplotlib.pyplot as plt
 
-histPath = "data/image.jpg"
-hist2Path = "data/lfyz.png"
+histPath = "data/lab1/image.jpg"
+hist2Path = "data/lab1/lfyz.png"
 
-barcodePath = "data/barcode.jpeg"
+barcodePath = "data/lab1/barcode.jpeg"
 
-projectionImagePath = "data/projection.png"
-projection2ImagePath = "data/projection2.png"
+projectionImagePath = "data/lab1/projection.png"
+projection2ImagePath = "data/lab1/projection2.png"
 
 
 def loadHistImage():
@@ -31,7 +31,10 @@ def showImage(image, tag):
     fig.axes.get_xaxis().set_visible(False)
     fig.axes.get_yaxis().set_visible(False)
     plt.title(tag)
+    plt.tight_layout()
 
-    plt.savefig("result/" + tag)
+    path = "result/" + tag
+    print(path)
+    plt.savefig(path)
 
     plt.show()
