@@ -128,10 +128,14 @@ def projectiveTransform():
     image = utils.loadDefaultImage()
     rows, cols = image.shape[0:2]
 
-    ABC = [0.9, 0.15, 0.00075]
-    DEF = [0.29, 1.4, 0.0004]
-    GH1 = [0, 0, 1]
-    T = np.float32([ABC, DEF, GH1])
+    # ABC = [0.9, 0.15, 0.00075]
+    # DEF = [0.29, 1.4, 0.0004]
+    # GH1 = [0, 0, 1]
+    # T = np.float32([ABC, DEF, GH1])
+
+    corners0 = np.float32([[0, 0], [cols - 1, 0], [cols - 1, rows - 1], [0, rows - 1]])
+    corners1 = np.float32([[0, cols/2 - 30], [cols - 1, 0], [cols - 1, rows - 1], [0, cols/2 + 30]])
+    T = cv.getPerspectiveTransform(corners0, corners1)
 
     result = cv.warpPerspective(image, T, (cols, rows))
 

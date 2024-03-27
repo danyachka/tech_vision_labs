@@ -4,9 +4,26 @@ import matplotlib.pyplot as plt
 
 defaultImagePath = "data/lab2/image.jpg"
 
+barrelImage = "data/lab2/barrelDistortionImage.jpg"
+
+topImage = "data/lab2/top.jpg"
+bottomImage = "data/lab2/bottom.jpg"
+
 
 def loadDefaultImage():
     return cv.imread(defaultImagePath)
+
+
+def loadBarrel():
+    return cv.imread(barrelImage)
+
+
+def loadTop():
+    return cv.imread(topImage)
+
+
+def loadBottom():
+    return cv.imread(bottomImage)
 
 
 def showImage(image, tag):

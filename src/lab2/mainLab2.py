@@ -1,4 +1,7 @@
 import src.lab2.task1 as task1
+import src.lab2.distortion as distortion
+import src.lab2.stitch as stitch
+import src.lab2.utils as utils
 
 
 def firstTask():
@@ -38,5 +41,20 @@ def firstTask():
     nonLinear()
 
 
+def secondTask():
+    image = utils.loadDefaultImage()
+    utils.showImage(image, "Оригинал")
+
+    barrel = distortion.getBarrel(image)
+    distortion.fixBarrel(barrel, -0.068, -0.04)
+
+    pincushion = distortion.getPincushion(image)
+    distortion.fixPincushion(pincushion, 0.01, 0.04)
+
+
+def lastTask():
+    stitch.stitch()
+
+
 def main():
-    firstTask()
+    secondTask()
