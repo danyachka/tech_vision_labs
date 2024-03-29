@@ -153,3 +153,29 @@ def adaptiveMedianFilter(img, ks):
 
     filtered_image = cv.merge([filtered_b, filtered_g, filtered_r])
     return filtered_image
+
+
+def useRobertsFilter(image):
+    kernel = np.array([[1, 0], [0, -1]], dtype=np.float32)
+
+    roberts = cv.filter2D(image, -1, kernel)
+    return roberts
+
+
+def usePrevittFilter(image):
+    sobel_x = cv.Sobel(image, cv.CV_64F, 1, 0, ksize=3)
+    sobel_y = cv.Sobel(image, cv.CV_64F, 0, 1, ksize=3)
+    prewitt = cv.magnitude(sobel_x, sobel_y)
+    return np.uint8(prewitt)
+
+
+def useLaplacianFilter(image):
+    return np.uint8(cv.Laplacian(image, cv.CV_64F))
+
+
+def useSobelFilter(image):
+    return np.uint8(cv.Sobel(image, cv.CV_64F, 1, 1, ksize=3))
+
+
+def useCannyAlgorithm(image, threshold1=60, threshold2=200):
+    return np.uint8(cv.Canny(image, threshold1, threshold2))

@@ -33,17 +33,36 @@ def thirdTask(noised, level):
     utils.showImage(adaptiveMedian, f"Адаптивная медианная фильтрация (noise level={level})")
 
 
+def forthTask(image):
+    roberts = filters.useRobertsFilter(image)
+    utils.showImage(roberts, f"Фильтр Робертса")
+
+    previtt = filters.usePrevittFilter(image)
+    utils.showImage(previtt, f"Фильтр Превитта", False)
+
+    sobel = filters.useSobelFilter(image)
+    utils.showImage(sobel, f"Фильтр Собела", False)
+
+    laplacian = filters.useLaplacianFilter(image)
+    utils.showImage(laplacian, f"Фильтр Лапласа", False)
+
+    threshold1, threshold2 = 60, 200
+    canny = filters.useCannyAlgorithm(image, threshold1, threshold2)
+    utils.showImage(canny, f"Алгоритм Кэнни (threshold = ({threshold1}, {threshold2}))")
+
+
 def main():
     image = utils.loadDefaultImage()
-    utils.showImage(image, "Оригинал")
+    # utils.showImage(image, "Оригинал")
 
     # for level in [0.7]:
     for level in [0.4, 0.6, 0.7]:
         noised = filters.createGaussianNoise(image, level)
 
-        utils.showImage(noised, f"Шум (noise level={level})")
+        # utils.showImage(noised, f"Шум (noise level={level})")
 
         # secondTask(noised, level)
 
-        thirdTask(noised, level)
+        # thirdTask(noised, level)
 
+    forthTask(image)

@@ -8,9 +8,13 @@ def loadDefaultImage():
     return cv.imread(defaultImagePath)
 
 
-def showImage(image, tag):
-    image = cv.cvtColor(image, cv.COLOR_BGR2RGB)
-    fig = plt.imshow(image)
+def showImage(image, tag, isColored=True):
+    if isColored:
+        image = cv.cvtColor(image, cv.COLOR_BGR2RGB)
+    else:
+        image = cv.cvtColor(image, cv.COLOR_BGR2GRAY)
+
+    fig = plt.imshow(image, cmap='gray')
     plt.axis('off')
     fig.axes.get_xaxis().set_visible(False)
     fig.axes.get_yaxis().set_visible(False)
