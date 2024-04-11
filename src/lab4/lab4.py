@@ -7,6 +7,7 @@ import matplotlib.pyplot as plt
 import src.lab4.utils as utils
 
 
+# Первое задание (тут просто внутренние функции показать надо наверно (как бинаризовали тип))
 def binarize(image: np.ndarray):
     def singleThresholdBinarize(threshold):
         _, result = cv.threshold(image, threshold, 255, cv.THRESH_BINARY)
@@ -40,6 +41,7 @@ def binarize(image: np.ndarray):
     utils.showImage(adaptive, "Адаптивная бинаризация")
 
 
+# Это второе задание с лицом (По Веберу делал)
 def segmentByVeber(image, window_size=15, constant=0.03):
     segmentedImage = np.zeros_like(image)
     height, width, _ = image.shape
@@ -62,6 +64,7 @@ def segmentByVeber(image, window_size=15, constant=0.03):
     return segmentedImage
 
 
+# Третье задание (по методу 𝑘-средних соответственно)
 def segmentImageKmeansLab(image, k):
     # Преобразование изображения из BGR в CIE Lab
     labImage = cv.cvtColor(image, cv.COLOR_BGR2LAB)
@@ -79,9 +82,11 @@ def segmentImageKmeansLab(image, k):
     return segmentedImage
 
 
-def segmentTexture(image):
-    image = cv.imread(utils.texturesPath, cv.IMREAD_GRAYSCALE)
+# Ну и последнее (получение изображений)
+def segmentTexture(path):
+    image = cv.imread(path, cv.IMREAD_GRAYSCALE)
 
+    # энтропия
     E = cv.GaussianBlur(image, (5, 5), 0)
     E = cv.convertScaleAbs(E)
     Eim = cv.normalize(E, None, 0, 255, cv.NORM_MINMAX)
@@ -132,20 +137,19 @@ def segmentTexture(image):
     return texture1, segmentResults, texture2, Mask1, Mask2
 
 
+# Это соответственно вычисление параметров для последнего задания на основе результатов верхнеё функции
 def printTextureParams(texture, tag):
-    #texture = cv.cvtColor(texture, cv.COLOR_BGR2GRAY)
     hist = cv.calcHist([texture], [0], None, [256], [0, 256])
 
-    # Обнуляем, так как имеем чёрный фон на месте другой текстуры
+    # Обнуляем белый, так как имеем его на месте другой текстуры
     hist[255] = 0
 
-    # Количество всёх "интересных" пикселей
+    # Количество всёх "интересных" пикселей (на части изображения была другая текстура)
     pixelsCount = int(np.sum(hist))
     print(f"Всего \"интересных\" пикселей в {tag} - {pixelsCount}")
     print(f"Количество всех пикселей в {tag} - {texture.shape[0] * texture.shape[1]}")
 
     def calcM():
-        # Считаем среднее значение z
         m = 0
         for i in range(0, 255):
             m += hist[i][0] * i / pixelsCount
@@ -163,9 +167,6 @@ def printTextureParams(texture, tag):
     M = calcM()
     print(f"m = {M}")
 
-    mu3 = calcMu(3, M)
-    #print(f"mu3(z) = {mu3}")
-
     sigmaSquared = calcMu(2, M)
     s = sigmaSquared ** 0.5
     print(f"s = {s}")
@@ -175,7 +176,7 @@ def printTextureParams(texture, tag):
 
     plt.figure(figsize=(10, 6))
     plt.plot(hist, color="blue")
-    plt.title("Гистограмма " + tag)
+    plt.title("Гистограмма текстуры " + tag)
     plt.show()
 
 
@@ -202,7 +203,7 @@ def main():
         texture = utils.loadTextureImage()
         #utils.showImage(texture, "Оригинальное изображение")
 
-        texture1, segmentResults, texture2, Mask1, Mask2 = segmentTexture(texture)
+        texture1, segmentResults, texture2, Mask1, Mask2 = segmentTexture(utils.texturesPath)
         utils.showImage(texture1, "Первая текстура")
         # utils.showImage(segmentResults, "Сегментация")
         utils.showImage(texture2, "Вторая текстура")
