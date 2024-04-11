@@ -42,14 +42,13 @@ def firstTask():
 
 
 def secondTask():
-    image = utils.loadDefaultImage()
-    utils.showImage(image, "Оригинал")
+    barrel = utils.loadBarrel()
+    utils.showImage(barrel, "Оригинал (бочкообразная дисторсия)")
+    distortion.fixBarrel(barrel, -0.014, -0.045)
 
-    barrel = distortion.getBarrel(image)
-    distortion.fixBarrel(barrel, -0.068, -0.04)
-
-    pincushion = distortion.getPincushion(image)
-    distortion.fixPincushion(pincushion, 0.01, 0.04)
+    pin = utils.loadPin()
+    utils.showImage(pin, "Оригинал (подушкообразная дисторсия)")
+    distortion.fixPincushion(pin, 0.12, 0.2)
 
 
 def lastTask():

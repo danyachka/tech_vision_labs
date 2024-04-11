@@ -4,7 +4,8 @@ import matplotlib.pyplot as plt
 
 defaultImagePath = "data/lab2/image.jpg"
 
-barrelImage = "data/lab2/barrelDistortionImage.jpg"
+barrelImage = "data/lab2/barrel_dist.png"
+pinImage = "data/lab2/pin_dist.png"
 
 topImage = "data/lab2/top.jpg"
 bottomImage = "data/lab2/bottom.jpg"
@@ -16,6 +17,10 @@ def loadDefaultImage():
 
 def loadBarrel():
     return cv.imread(barrelImage)
+
+
+def loadPin():
+    return cv.imread(pinImage)
 
 
 def loadTop():
