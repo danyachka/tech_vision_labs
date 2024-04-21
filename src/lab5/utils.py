@@ -11,6 +11,10 @@ road = "data/lab5/road.jpeg"
 
 circles = "data/lab5/circles.png"
 
+bubbles = "data/lab5/bubbles.jpg"
+
+car = "data/lab5/car.png"
+
 
 def loadDefaultImage():
     return cv.imread(defaultImagePath)
@@ -30,6 +34,14 @@ def loadRoadImage():
 
 def loadCirclesImage():
     return cv.imread(circles)
+
+
+def loadBubblesImage():
+    return cv.imread(bubbles)
+
+
+def loadCar():
+    return cv.imread(car)
 
 
 def showImage(image, tag, isColored=True):

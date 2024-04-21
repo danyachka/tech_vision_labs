@@ -82,7 +82,7 @@ def findSmallestAndBiggest(circles, tag="") -> tuple[int, int]:
     biggest = 0
     biggestId = -1
 
-    for i in range(0, len(circles)):
+    for i in range(0, len(circles[0])):
         _, _, radius = circles[0][i]
 
         if radius < smallest:
@@ -95,33 +95,35 @@ def findSmallestAndBiggest(circles, tag="") -> tuple[int, int]:
 
     print(f"Самая большая окружность ({tag}) = {biggest}")
     print(f"Самая маленькая окружность ({tag}) = {smallest}")
-    print(f"Количество окружностей ({tag}) = {len(circles)}")
+    print(f"Количество окружностей ({tag}) = {len(circles[0])}")
 
     return smallestId, biggestId
 
 
-def findCircles(image, radiusRange, useCanny, tag):
+def findCircles(image, radiusRange, useSobel, tag):
     def drawCircle(x, y, r, color):
-        print(f"x={x}, y={y}")
-        x = int(x)
-        y = int(y)
-        r = int(r)
+        # print(f"x={x}, y={y}")
         cv2.circle(image, (x, y), radius=r, color=color, thickness=12)
 
     edges = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
 
-    if useCanny:
-        edges = cv2.Canny(edges, 100, 200, apertureSize=3)
+    if useSobel:
+        edges = cv2.Sobel(edges, cv2.CV_8UC1, 1, 1, ksize=3)
+        # edges = cv2.Canny(edges, 30, 80, apertureSize=3)
 
     rows = edges.shape[0]
-    circles = cv2.HoughCircles(edges, cv2.HOUGH_GRADIENT, 1, 20,
-                               param1=55, param2=40, minRadius=radiusRange[0], maxRadius=radiusRange[1])
+    circles = cv2.HoughCircles(edges, cv2.HOUGH_GRADIENT, 1, 60,
+                               param1=80, param2=25,
+                               minRadius=radiusRange[0], maxRadius=radiusRange[1])
     circles = np.uint16(np.around(circles))
 
-    smallestId, biggestId = findSmallestAndBiggest(circles, tag)
+    if radiusRange[0] != radiusRange[1]:
+        smallestId, biggestId = findSmallestAndBiggest(circles, tag)
+    else:
+        smallestId, biggestId = -1, -1
 
-    for i in range(len(circles)):
-        x, y, radius = circles[0, i]
+    for i in range(len(circles[0])):
+        x, y, radius = circles[0][i]
 
         if i == smallestId or i == biggestId:
             continue
@@ -153,15 +155,17 @@ def firstTask():
 
 
 def secondTask():
-    image = utils.loadCirclesImage()
+    image = utils.loadCar()
 
-    utils.showImage(image, "Оригинал")
-    res, _ = findCircles(image.copy(), (50, 180), False, "без операторов")
-    utils.showImage(res, "Результат без операторов")
+    R = 66
+    #utils.showImage(image, "Оригинал")
+    # 1(50, 180) 2(30, 200)
+    res, _ = findCircles(image.copy(), (R, R), False, f"без операторов (R = {R})")
+    utils.showImage(res, f"Результат без операторов (R = {R})")
 
-    res1, edges1 = findCircles(image.copy(), (50, 180), True, "с Кэнни")
-    utils.showImage(res1, "Результат с Кэнни")
-    utils.showImage(edges1, "Грани с Кэнни")
+    res1, edges1 = findCircles(image.copy(), (R, R), True, f"с Собелом (R = {R})")
+    utils.showImage(res1, f"Результат с Собелом (R = {R})")
+    #utils.showImage(edges1, f"Грани с Собелом (R = {R})")
 
 
 def main():
