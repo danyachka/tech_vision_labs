@@ -127,6 +127,7 @@ def piecewiseLinearTransform(sLeft=0.5, sRight=2):
 def projectiveTransform():
     image = utils.loadDefaultImage()
     rows, cols = image.shape[0:2]
+    rows, cols = image.shape[0:2]
 
     # ABC = [0.9, 0.15, 0.00075]
     # DEF = [0.29, 1.4, 0.0004]

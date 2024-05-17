@@ -3,6 +3,7 @@ import lab2.mainLab2
 import lab3.lab3
 import lab4.lab4
 import lab5.lab5
+import lab6.lab6
 
 
 if __name__ == '__main__':
@@ -10,5 +11,5 @@ if __name__ == '__main__':
     #lab2.mainLab2.main()
     #lab3.lab3.main()
     # lab4.lab4.main()
-    lab5.lab5.main()
+    lab6.lab6.main()
 
